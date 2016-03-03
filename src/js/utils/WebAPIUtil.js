@@ -13,5 +13,7 @@ const WebAPIUtil = {
     },
     body: JSON.stringify(data)
   }),
+  getReport: () => fetch('http://140.113.89.72:1337/table')
+    .then(res => res.json()),
 };
 export default WebAPIUtil;
