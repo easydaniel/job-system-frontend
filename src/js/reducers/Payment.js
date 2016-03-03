@@ -6,25 +6,22 @@ const initialState = {
   report: [],
 };
 
-export default handleActions({
 
-  REFINE_REPORT: (state, action) => {
-    var refine = state.report.map(function(user) {
-      return {
-        ...user,
-        total: user.prev + user.salary * user.schedule + user.other + user.base,
-        next: user.prev + user.salary * user.schedule + user.other + user.base - user.pay
-      };
-    });
+function refineReport(state) {
+  return state.map(function(user) {
     return {
-      ...state,
-      report: refine,
-    }
-  },
+      ...user,
+      total: user.prev + user.salary * user.schedule + user.other + user.base,
+      next: user.prev + user.salary * user.schedule + user.other + user.base - user.pay
+    };
+  });
+}
+
+export default handleActions({
 
   GET_REPORT: (state, action) => ({
     ...state,
-    report: action.payload,
+    report: refineReport(action.payload),
   }),
 
 }, initialState);
