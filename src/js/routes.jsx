@@ -5,6 +5,7 @@ import Home from './components/pages/Home.jsx';
 import List from './components/pages/List.jsx';
 import About from './components/pages/About.jsx';
 import App from './containers/App.js';
+import Payment from './containers/Payment.js';
 import NotFound from './components/pages/NotFound.jsx';
 
 function authenticate(nextState, replaceState) {
@@ -23,7 +24,7 @@ export default class Root extends React.Component {
       <Router history={hashHistory}>
         <Route path="/" component={Master}>
           <IndexRoute component={Home} />
-          <Route path="list" component={List} />
+          <Route path="Payment" component={Payment} />
           <Route path="about" component={About} onEnter={authenticate} />
           <Route path="redux" component={App} />
         </Route>

@@ -13,7 +13,7 @@ class LeftNavBar extends React.Component {
     this.state = {
       open: false,
       menuItems: [
-        { route: 'list', text: 'List' },
+        { route: 'Payment', text: 'Payment' },
         { route: 'about', text: 'About (login)' },
         { route: 'redux', text: 'Redux page' },
         { route: 'not', text: '404 page' },
