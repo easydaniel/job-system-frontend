@@ -8,7 +8,7 @@ import TableRow from 'material-ui/lib/table/table-row';
 import TableHeader from 'material-ui/lib/table/table-header';
 import TableRowColumn from 'material-ui/lib/table/table-row-column';
 import TableBody from 'material-ui/lib/table/table-body';
-import * as PaymentAction from '../actions/Payment.js';
+import * as PaymentAction from '../actions/PaymentAction.js';
 
 
 class Payment extends Component {
@@ -39,8 +39,6 @@ class Payment extends Component {
               <TableBody displayRowCheckbox={false}>
                 {
                     data.map((row) => {
-                        row.total = row.base + row.salary * row.schedule + row.prev + row.other;
-                        row.next = row.total - row.pay;
                         return (
                               <TableRow>
                                 <TableRowColumn>{row.studentId}</TableRowColumn>
