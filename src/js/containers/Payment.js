@@ -29,7 +29,7 @@ class Payment extends Component {
   }
 
   handleSubmit() {
-    console.log('submit');
+    this.props.dispatch(PaymentAction.postReport());
   }
 
   handleChange(e) {
@@ -42,13 +42,14 @@ class Payment extends Component {
         value: e.target.value
       }
       this.props.dispatch(PaymentAction.updateRowReport(payload));
-      // console.log('update');
     }
   }
 
   render() {
     const tableHeader = ['學號', '姓名', '局號', '帳號', '原始值班時數', '原始job時數', 'schedule時數', '基本薪', '時薪', 'other', '上月', '總結', '報支', '下月'];
     const data = this.props.payment.report;
+    const fullwidth = {
+    }
     return (
           <FullWidthSection>
             <Table>
@@ -77,7 +78,7 @@ class Payment extends Component {
                               <TableRowColumn>{row.prev}</TableRowColumn>
                               <TableRowColumn>{row.total}</TableRowColumn>
                               <TableRowColumn><TextField name={row.studentId + ',pay'} fullWidth={true} onChange={this.handleChange} hintText="報支" defaultValue={row.pay} /></TableRowColumn>
-                              <TableRowColumn>{row.next}</TableRowColumn>
+                              <TableRowColumn style={fullwidth}>{row.next}</TableRowColumn>
                             </TableRow>
                         );
                     })
@@ -89,6 +90,7 @@ class Payment extends Component {
               onClick={this.handleSubmit}
               secondary
             />
+          <h1>{this.props.payment.message}</h1>
           </FullWidthSection>
           );
   }

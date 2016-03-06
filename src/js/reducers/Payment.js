@@ -20,29 +20,45 @@ function refineReport(payload) {
 
 export default handleActions({
 
-  UPDATE_ROW_REPORT: (state, action) => {
+    UPDATE_ROW_REPORT: (state, action) => {
 
-    var modified = state.report.map(function (row) {
-      if (row.studentId === action.payload.id) {
-        // console.log(row);
-        if (action.payload.type === 'other') {
-          row.other = action.payload.value;
-        } else {
-          row.pay = action.payload.value;
+      var modified = state.report.map(function(row) {
+        if (row.studentId === action.payload.id) {
+          // console.log(row);
+          if (action.payload.type === 'other') {
+            row.other = action.payload.value;
+          } else {
+            row.pay = action.payload.value;
+          }
         }
+        return row;
+      });
+
+      return {
+        ...state,
+        report: refineReport(modified)
+      };
+    },
+
+    POST_REPORT: {
+      next(state, action) {
+        return ({
+          ...state,
+          message: 'done'
+        });
+      },
+      throw (state, action) {
+        return {
+          ...state,
+          message: action.payload.message,
+        };
       }
-      return row;
-    });
+    },
 
-    return {
+    GET_REPORT: (state, action) => ({
       ...state,
-      report: refineReport(modified)
-    };
+      report: refineReport(action.payload),
+    }),
+
   },
-
-  GET_REPORT: (state, action) => ({
-    ...state,
-    report: refineReport(action.payload),
-  }),
-
-}, initialState);
+  initialState);
