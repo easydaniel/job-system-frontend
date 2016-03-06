@@ -17,6 +17,9 @@ const WebAPIUtil = {
   getReport: () => fetch('http://140.113.89.72:1337/table')
     .then(res => res.json()),
 
+  getMonthReport: (date) => fetch('http://140.113.89.72:1337/table?date=' + date)
+    .then(res => res.json()),
+
   postUser: (data) => fetch(`http://140.113.89.72:1337/table`, {
     method: 'post',
     headers: {
@@ -25,10 +28,11 @@ const WebAPIUtil = {
     },
     body: JSON.stringify(data)
   }),
+
   getToken: () => fetch('http://cs.nctu.edu.tw/cscc/cslogin/token')
     .then(res => res.json())
     .then((res) => {
-        return res.token;
+      return res.token;
     }),
 };
 export default WebAPIUtil;

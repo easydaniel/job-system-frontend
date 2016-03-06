@@ -24,6 +24,7 @@ class Payment extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleGetToken = this.handleGetToken.bind(this);
+    this.handleGetMonth = this.handleGetMonth.bind(this);
     this.getReport();
     setInterval(() => this.handleGetToken(), 1000);
   }
@@ -32,13 +33,15 @@ class Payment extends Component {
     this.props.dispatch(PaymentAction.getReport());
   }
 
+  handleGetMonth() {
+    var date = this.refs.monthParam.getValue();
+    this.props.dispatch(PaymentAction.getMonthReport(date));
+  }
+
   handleSubmit() {
-<<<<<<< HEAD
     this.props.dispatch(PaymentAction.postReport());
-=======
     console.log('submit');
     console.log(this.props);
->>>>>>> 924b101269137519dded8c721a7381e8c909efb7
   }
 
   handleChange(e) {
@@ -96,7 +99,7 @@ class Payment extends Component {
                               <TableRowColumn>{row.prev}</TableRowColumn>
                               <TableRowColumn>{row.total}</TableRowColumn>
                               <TableRowColumn><TextField name={row.studentId + ',pay'} fullWidth={true} onChange={this.handleChange} hintText="報支" defaultValue={row.pay} /></TableRowColumn>
-                              <TableRowColumn style={fullwidth}>{row.next}</TableRowColumn>
+                              <TableRowColumn>{row.next}</TableRowColumn>
                             </TableRow>
                         );
                     })
@@ -107,6 +110,12 @@ class Payment extends Component {
               label="Submit"
               onClick={this.handleSubmit}
               secondary
+            />
+          <TextField ref="monthParam" hintText="日期格式: 2015/01"/>
+            <RaisedButton
+              label="Get Month"
+              onClick={this.handleGetMonth}
+              primary
             />
           <h1>{this.props.payment.message}</h1>
 
