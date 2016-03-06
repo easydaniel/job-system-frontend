@@ -12,6 +12,7 @@ import TableBody from 'material-ui/lib/table/table-body';
 import TextField from 'material-ui/lib/text-field';
 
 import * as PaymentAction from '../actions/PaymentAction.js';
+import * as LoginAction from '../actions/LoginAction.js';
 
 
 class Payment extends Component {
@@ -21,7 +22,10 @@ class Payment extends Component {
     this.getReport = this.getReport.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+    this.handleGetToken = this.handleGetToken.bind(this);
     this.getReport();
+    setInterval(() => this.handleGetToken(), 1000);
   }
 
   getReport() {
@@ -30,6 +34,7 @@ class Payment extends Component {
 
   handleSubmit() {
     console.log('submit');
+    console.log(this.props);
   }
 
   handleChange(e) {
@@ -46,9 +51,20 @@ class Payment extends Component {
     }
   }
 
+  handleLogin() {
+      location.href = 'http://cs.nctu.edu.tw/cscc/cslogin/auth/login';
+  }
+
+  handleGetToken() {
+      this.props.dispatch(LoginAction.getToken);
+      console.log('get');
+  }
+
   render() {
     const tableHeader = ['學號', '姓名', '局號', '帳號', '原始值班時數', '原始job時數', 'schedule時數', '基本薪', '時薪', 'other', '上月', '總結', '報支', '下月'];
     const data = this.props.payment.report;
+    const p = JSON.stringify(this.props);
+    //console.log(p);
     return (
           <FullWidthSection>
             <Table>
@@ -89,6 +105,12 @@ class Payment extends Component {
               onClick={this.handleSubmit}
               secondary
             />
+            <RaisedButton
+              label="Login"
+              onClick={this.handleLogin}
+            />
+            <h1>token: {this.props.login.token}</h1>
+
           </FullWidthSection>
           );
   }
@@ -97,4 +119,5 @@ class Payment extends Component {
 
 export default connect(state => ({
     payment: state.payment,
+    login: state.login,
 }))(Payment);
