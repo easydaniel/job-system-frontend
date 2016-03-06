@@ -28,11 +28,40 @@ const WebAPIUtil = {
     },
     body: JSON.stringify(data)
   }),
-
-  getToken: () => fetch('http://cs.nctu.edu.tw/cscc/cslogin/token')
+  getToken: () => fetch('https://www.cs.nctu.edu.tw/cscc/cslogin/token',{
+      method: 'get',
+      credentials: 'include',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
     .then(res => res.json())
     .then((res) => {
-      return res.token;
+        console.log(res.token);
+        return res.token;
     }),
+
+  getUserInfo: () => fetch('https://www.cs.nctu.edu.tw/cscc/cslogin/token',{
+      method: 'get',
+      credentials: 'include',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(res => res.json())
+    .then((res) => {
+      return fetch('https://www.cs.nctu.edu.tw/cscc/cslogin/me?token=' + res.token, {
+        method: 'get',
+        credentials: 'include',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        })
+        .then(res => res.json())
+    }),
+
 };
 export default WebAPIUtil;

@@ -9,6 +9,6 @@ export default combineReducers({
   github,
   payment,
   apiStatus,
-  login,
   routing,
+  login,
 });

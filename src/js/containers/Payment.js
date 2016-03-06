@@ -23,10 +23,14 @@ class Payment extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
     this.handleGetToken = this.handleGetToken.bind(this);
     this.handleGetMonth = this.handleGetMonth.bind(this);
+    this.handleGetUserInfo = this.handleGetUserInfo.bind(this);
     this.getReport();
-    setInterval(() => this.handleGetToken(), 1000);
+    this.handleGetUserInfo();
+    this.handleGetToken();
+    //setInterval(() => this.handleGetToken(), 1000);
   }
 
   getReport() {
@@ -40,8 +44,6 @@ class Payment extends Component {
 
   handleSubmit() {
     this.props.dispatch(PaymentAction.postReport());
-    console.log('submit');
-    console.log(this.props);
   }
 
   handleChange(e) {
@@ -60,30 +62,28 @@ class Payment extends Component {
   handleLogin() {
       location.href = 'http://cs.nctu.edu.tw/cscc/cslogin/auth/login';
   }
+  handleLogout() {
+      location.href = 'http://cs.nctu.edu.tw/cscc/cslogin/auth/logout?token=' + this.props.login.token;
+  }
 
   handleGetToken() {
-      this.props.dispatch(LoginAction.getToken);
-      console.log('get');
+      this.props.dispatch(LoginAction.getToken());
+      console.log('test');
+  }
+
+  handleGetUserInfo() {
+      this.props.dispatch(LoginAction.getUserInfo());
   }
 
   render() {
     const tableHeader = ['學號', '姓名', '局號', '帳號', '原始值班時數', '原始job時數', 'schedule時數', '基本薪', '時薪', 'other', '上月', '總結', '報支', '下月'];
     const data = this.props.payment.report;
-
-    const p = JSON.stringify(this.props);
-    return (
-          <FullWidthSection>
-            <Table>
-              <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-                <TableRow>
-                  {
-                    tableHeader.map((col) => (<TableHeaderColumn>{col}</TableHeaderColumn>))
-                  }
-                </TableRow>
-              </TableHeader>
-              <TableBody displayRowCheckbox={false}>
-                {
-                    data.map((row) => {
+    const p = JSON.stringify(this.props.login.user);
+    //console.log(p);
+    const token = this.props.login.token;
+    const user = this.props.login.user;
+    const uid = user.uid;
+    const tableBody = data.map((row) => {
                         return (
                             <TableRow selectable={false}>
                               <TableRowColumn>{row.studentId}</TableRowColumn>
@@ -103,7 +103,18 @@ class Payment extends Component {
                             </TableRow>
                         );
                     })
-                }
+    return (
+          <FullWidthSection>
+            <Table>
+              <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+                <TableRow>
+                  {
+                    tableHeader.map((col) => (<TableHeaderColumn>{col}</TableHeaderColumn>))
+                  }
+                </TableRow>
+              </TableHeader>
+              <TableBody displayRowCheckbox={false}>
+                { typeof(uid) == "undefined" ? '' : tableBody }
               </TableBody>
             </Table>
             <RaisedButton
@@ -120,10 +131,10 @@ class Payment extends Component {
           <h1>{this.props.payment.message}</h1>
 
             <RaisedButton
-              label="Login"
-              onClick={this.handleLogin}
+              label={(typeof(uid) == "undefined" ) ? "Login" : "Logout"}
+              onClick={typeof(uid) == "undefined" ? this.handleLogin : this.handleLogout}
             />
-            <h1>token: {this.props.login.token}</h1>
+            <h1>uid: {uid}</h1>
 
           </FullWidthSection>
           );
