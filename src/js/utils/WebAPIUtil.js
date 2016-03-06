@@ -25,5 +25,10 @@ const WebAPIUtil = {
     },
     body: JSON.stringify(data)
   }),
+  getToken: () => fetch('http://cs.nctu.edu.tw/cscc/cslogin/token')
+    .then(res => res.json())
+    .then((res) => {
+        return res.token;
+    }),
 };
 export default WebAPIUtil;
