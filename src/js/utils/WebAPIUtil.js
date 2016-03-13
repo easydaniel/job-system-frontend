@@ -63,5 +63,27 @@ const WebAPIUtil = {
         .then(res => res.json())
     }),
 
+  getUserHours: () => {
+      return [
+      {
+          "year": 2016,
+          "month": 1,
+          "data": {
+              "WWW": 7.122,
+              "BSD": 3.14,
+              "NET": 1.234,
+          }
+      },
+      {
+          "year": 2016,
+          "month": 2,
+          "data": {
+              "WWW": 7.122,
+              "BSD": 3.14
+          }
+      },
+      ];
+  }
+
 };
 export default WebAPIUtil;

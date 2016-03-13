@@ -4,6 +4,7 @@ import {
 
 const initialState = {
   report: [],
+  hours: [],
 };
 
 
@@ -15,6 +16,30 @@ function refineReport(payload) {
       total: user.prev + user.salary * user.schedule + user.other + user.base,
       next: user.prev + user.salary * user.schedule + user.other + user.base - user.pay
     };
+  });
+}
+
+function refineUserHours(payload) {
+  var groupSet = new Set();
+  payload.forEach((item) => {
+    Object.keys(item.data).forEach((group) => {
+      groupSet.add(group);
+    });
+  });
+  var tmp = payload.map((item) => {
+    groupSet.forEach((group) => {
+      if(typeof(item.data[group]) == "undefined"){
+        item.data[group] = 0;
+      }
+    });
+    return item;
+  });
+  return tmp.map((item) => {
+      var data = Object.keys(item.data).map((group) => {
+          return {group: item.data[group]};
+      });
+      item.data = data;
+      return item;
   });
 }
 
@@ -57,6 +82,11 @@ export default handleActions({
     GET_REPORT: (state, action) => ({
       ...state,
       report: refineReport(action.payload),
+    }),
+
+    GET_USER_HOURS : (state, sction) => ({
+        ...state,
+        hours: refineUserHours(action.payload),
     }),
 
   },
