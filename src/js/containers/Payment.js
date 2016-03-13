@@ -102,7 +102,56 @@ class Payment extends Component {
                               <TableRowColumn>{row.next}</TableRowColumn>
                             </TableRow>
                         );
-                    })
+                    });
+
+    const fakeData = [
+      {
+          "year": 2016,
+          "month": 1,
+          "data": [
+              {
+                "WWW": 7.122
+              },
+              {
+                "BSD": 3.14
+              }
+          ]
+      },
+      {
+          "year": 2016,
+          "month": 2,
+          "data": [
+              {
+                "WWW": 7.122
+              },
+              {
+                "BSD": 3.14
+              }
+          ]
+      },
+  ]
+    const userTable = fakeData.map((section) => {
+                        return (
+                          <Table>
+                            <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+                              <TableRow>
+                                <TableHeaderColumn>Date</TableHeaderColumn>
+                                {
+                                  section.data.map((item) => (<TableHeaderColumn>{Object.keys(item)[0]}</TableHeaderColumn>))
+                                }
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody displayRowCheckbox={false}>
+                              <TableRow selectable={false}>
+                                <TableRowColumn>{section.year + "/" + section.month}</TableRowColumn>
+                                {
+                                  section.data.map((item) => (<TableRowColumn>{item[Object.keys(item)[0]]}</TableRowColumn>))
+                                }
+                              </TableRow>
+                            </TableBody>
+                          </Table>
+                        );
+                    });
     return (
           <FullWidthSection>
             <Table>
@@ -114,7 +163,7 @@ class Payment extends Component {
                 </TableRow>
               </TableHeader>
               <TableBody displayRowCheckbox={false}>
-                { typeof(uid) == "undefined" ? '' : tableBody }
+                { typeof(uid) === "undefined" ? '' : tableBody }
               </TableBody>
             </Table>
             <RaisedButton
@@ -135,7 +184,7 @@ class Payment extends Component {
               onClick={typeof(uid) == "undefined" ? this.handleLogin : this.handleLogout}
             />
             <h1>uid: {uid}</h1>
-
+            {userTable}
           </FullWidthSection>
           );
   }

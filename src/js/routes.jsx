@@ -18,6 +18,8 @@ function authenticate(nextState, replaceState) {
 
 export const history = hashHistory;
 
+
+
 export default class Root extends React.Component {
   render() {
     return (

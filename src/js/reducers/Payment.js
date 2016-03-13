@@ -30,7 +30,8 @@ export default handleActions({
           row.pay = action.payload.value;
         }
         return row;
-      });
+      }
+    });
 
       return {
         ...state,
