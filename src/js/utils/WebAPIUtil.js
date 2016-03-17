@@ -20,7 +20,7 @@ const WebAPIUtil = {
   getMonthReport: (date) => fetch('http://140.113.89.72:1337/table?date=' + date)
     .then(res => res.json()),
 
-  postUser: (data) => fetch(`http://140.113.89.72:1337/table`, {
+  postUser: (data) => fetch('http://140.113.89.72:1337/table', {
     method: 'post',
     headers: {
       'Accept': 'application/json',

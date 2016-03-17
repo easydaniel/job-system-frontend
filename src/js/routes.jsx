@@ -25,10 +25,10 @@ export default class Root extends React.Component {
     return (
       <Router history={hashHistory}>
         <Route path="/" component={Master}>
-          <IndexRoute component={Home} />
-          <Route path="Payment" component={Payment} />
-          <Route path="about" component={About} onEnter={authenticate} />
-          <Route path="redux" component={App} />
+          <IndexRoute component={Payment} />
+          // <Route path="Payment" component={Payment} />
+          // <Route path="about" component={About} onEnter={authenticate} />
+          // <Route path="redux" component={App} />
         </Route>
         <Route path="*" component={NotFound} />
       </Router>

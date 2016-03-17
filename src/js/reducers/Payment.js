@@ -46,19 +46,19 @@ function refineUserHours(payload) {
 export default handleActions({
 
   UPDATE_ROW_REPORT: (state, action) => {
+    
     var modified = state.report.map(function (row) {
       if (row.studentId === action.payload.id) {
-        // console.log(row);
         if (action.payload.type === 'other') {
           row.other = action.payload.value;
         } else {
           row.pay = action.payload.value;
         }
-        return row;
       }
+      return row;
     });
 
-      return {
+    return {
         ...state,
         report: refineReport(modified)
       };

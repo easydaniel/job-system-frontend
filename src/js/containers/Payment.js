@@ -10,9 +10,9 @@ import TableHeader from 'material-ui/lib/table/table-header';
 import TableRowColumn from 'material-ui/lib/table/table-row-column';
 import TableBody from 'material-ui/lib/table/table-body';
 import TextField from 'material-ui/lib/text-field';
+import Divider from 'material-ui/lib/divider';
 
 import * as PaymentAction from '../actions/PaymentAction.js';
-import * as LoginAction from '../actions/LoginAction.js';
 
 
 class Payment extends Component {
@@ -22,14 +22,8 @@ class Payment extends Component {
     this.getReport = this.getReport.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleLogin = this.handleLogin.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
-    this.handleGetToken = this.handleGetToken.bind(this);
     this.handleGetMonth = this.handleGetMonth.bind(this);
-    this.handleGetUserInfo = this.handleGetUserInfo.bind(this);
     this.getReport();
-    this.handleGetUserInfo();
-    this.handleGetToken();
     //setInterval(() => this.handleGetToken(), 1000);
   }
 
@@ -47,8 +41,8 @@ class Payment extends Component {
   }
 
   handleChange(e) {
-    // console.log('change');
     if (Number(e.target.value)) {
+    //  console.log('change');
       var ref = e.target.name.split(',');
       var payload = {
         id: ref[0],
@@ -59,30 +53,18 @@ class Payment extends Component {
     }
   }
 
-  handleLogin() {
-      location.href = 'http://cs.nctu.edu.tw/cscc/cslogin/auth/login';
-  }
-  handleLogout() {
-      location.href = 'http://cs.nctu.edu.tw/cscc/cslogin/auth/logout?token=' + this.props.login.token;
-  }
-
-  handleGetToken() {
-      this.props.dispatch(LoginAction.getToken());
-      console.log('test');
-  }
-
-  handleGetUserInfo() {
-      this.props.dispatch(LoginAction.getUserInfo());
-  }
 
   render() {
     const tableHeader = ['學號', '姓名', '局號', '帳號', '原始值班時數', '原始job時數', 'schedule時數', '基本薪', '時薪', 'other', '上月', '總結', '報支', '下月'];
     const data = this.props.payment.report;
     const p = JSON.stringify(this.props.login.user);
-    //console.log(p);
     const token = this.props.login.token;
-    const user = this.props.login.user;
-    const uid = user.uid;
+    const styles = {
+      "submit_btn": {
+        "marginLeft": "93%",
+        "marginTop": "2%"
+      }
+    }
     const tableBody = data.map((row) => {
                         return (
                             <TableRow selectable={false}>
@@ -125,7 +107,10 @@ class Payment extends Component {
                 "WWW": 7.122
               },
               {
-                "BSD": 3.14
+                "something": 3.14
+              },
+              {
+                "other": 11114
               }
           ]
       },
@@ -152,8 +137,18 @@ class Payment extends Component {
                           </Table>
                         );
                     });
+
     return (
+        <div>
           <FullWidthSection>
+            <center>
+            <TextField ref="monthParam" hintText="日期格式: 2015/01"/>
+            <RaisedButton
+              label="Get Month"
+              onClick={this.handleGetMonth}
+              primary
+            />
+        </center>
             <Table>
               <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                 <TableRow>
@@ -163,29 +158,23 @@ class Payment extends Component {
                 </TableRow>
               </TableHeader>
               <TableBody displayRowCheckbox={false}>
-                { typeof(uid) === "undefined" ? '' : tableBody }
+                { tableBody }
               </TableBody>
             </Table>
             <RaisedButton
+
+              style={ styles.submit_btn }
               label="Submit"
               onClick={this.handleSubmit}
               secondary
             />
-          <TextField ref="monthParam" hintText="日期格式: 2015/01"/>
-            <RaisedButton
-              label="Get Month"
-              onClick={this.handleGetMonth}
-              primary
-            />
+
           <h1>{this.props.payment.message}</h1>
 
-            <RaisedButton
-              label={(typeof(uid) == "undefined" ) ? "Login" : "Logout"}
-              onClick={typeof(uid) == "undefined" ? this.handleLogin : this.handleLogout}
-            />
-            <h1>uid: {uid}</h1>
+
             {userTable}
           </FullWidthSection>
+        </div>
           );
   }
 }
