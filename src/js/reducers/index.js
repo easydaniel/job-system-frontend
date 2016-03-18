@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux';
 import { routeReducer as routing } from 'react-router-redux';
-import github from './Github';
-import apiStatus from './ApiStatus';
+//import github from './Github';
+//import apiStatus from './ApiStatus';
 import payment from './Payment';
 import login from './Login';
 
 export default combineReducers({
-  github,
+  //github,
   payment,
-  apiStatus,
+  //apiStatus,
   routing,
   login,
 });
