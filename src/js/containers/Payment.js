@@ -55,19 +55,52 @@ class Payment extends Component {
 
 
   render() {
-    const tableHeader = ['學號', '姓名', '局號', '帳號', '原始值班時數', '原始job時數', 'schedule時數', '基本薪', '時薪', 'other', '上月', '總結', '報支', '下月'];
-    const data = this.props.payment.report;
     const p = JSON.stringify(this.props.login.user);
     const token = this.props.login.token;
+    const tableSettings = {
+      fixHeader: true,
+      displaySelectAll: false,
+      adjustForCheckbox: false,
+      displayRowCheckbox: false,
+      selectable: false,
+      fullWidth: true
+    }
     const styles = {
-      "submit_btn": {
-        "marginLeft": "93%",
+      "submitBtn": {
+        "marginLeft": "90%",
         "marginTop": "2%"
+      },
+      "tableHeader": {
+        "textAlign" : "center",
+        "fontSize" : "1.4em"
       }
     }
-    const tableBody = data.map((row) => {
+    const tableHeader = ['學號', '姓名', '局號', '帳號', '原始值班時數', '原始job時數', 'schedule時數', '基本薪', '時薪', 'other', '上月', '總結', '報支', '下月'];
+    const data = this.props.payment.report;
+    const table = (
+            <Table
+              fixedHeader={ tableSettings.fixHeader }
+            >
+              <TableHeader displaySelectAll={ tableSettings.displaySelectAll } adjustForCheckbox={ tableSettings.adjustForCheckbox }>
+                <TableRow>
+                  <TableHeaderColumn
+                    colSpan={ tableHeader.length }
+                    style={ styles.tableHeader }
+                  >
+                  hellow
+                  </TableHeaderColumn>
+                </TableRow>
+                <TableRow>
+                  {
+                    tableHeader.map((col) => (<TableHeaderColumn>{col}</TableHeaderColumn>))
+                  }
+                </TableRow>
+              </TableHeader>
+              <TableBody displayRowCheckbox={ tableSettings.displayRowCheckbox }>
+                {
+                    data.map((row) => {
                         return (
-                            <TableRow selectable={false}>
+                            <TableRow selectable={ tableSettings.selectable }>
                               <TableRowColumn>{row.studentId}</TableRowColumn>
                               <TableRowColumn>{row.name}</TableRowColumn>
                               <TableRowColumn>{row.postAccount}</TableRowColumn>
@@ -77,14 +110,18 @@ class Payment extends Component {
                               <TableRowColumn>{row.schedule}</TableRowColumn>
                               <TableRowColumn>{row.base}</TableRowColumn>
                               <TableRowColumn>{row.salary}</TableRowColumn>
-                              <TableRowColumn><TextField name={row.studentId + ',other'} fullWidth={true} onChange={this.handleChange} hintText="other" defaultValue={row.other} /></TableRowColumn>
+                              <TableRowColumn><TextField name={row.studentId + ',other'} fullWidth={ tableSettings.fullWidth } onChange={this.handleChange} hintText="other" defaultValue={row.other} /></TableRowColumn>
                               <TableRowColumn>{row.prev}</TableRowColumn>
                               <TableRowColumn>{row.total}</TableRowColumn>
-                              <TableRowColumn><TextField name={row.studentId + ',pay'} fullWidth={true} onChange={this.handleChange} hintText="報支" defaultValue={row.pay} /></TableRowColumn>
+                              <TableRowColumn><TextField name={row.studentId + ',pay'} fullWidth={ tableSettings.fullWidth } onChange={this.handleChange} hintText="報支" defaultValue={row.pay} /></TableRowColumn>
                               <TableRowColumn>{row.next}</TableRowColumn>
                             </TableRow>
                         );
-                    });
+                    })
+                }
+              </TableBody>
+            </Table>
+        )
 
     const fakeData = [
       {
@@ -118,7 +155,7 @@ class Payment extends Component {
     const userTable = fakeData.map((section) => {
                         return (
                           <Table>
-                            <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+                            <TableHeader displaySelectAll={ tableSettings.displaySelectAll } adjustForCheckbox={ tableSettings.adjustForCheckbox }>
                               <TableRow>
                                 <TableHeaderColumn>Date</TableHeaderColumn>
                                 {
@@ -126,8 +163,9 @@ class Payment extends Component {
                                 }
                               </TableRow>
                             </TableHeader>
-                            <TableBody displayRowCheckbox={false}>
-                              <TableRow selectable={false}>
+                            <TableBody displayRowCheckbox={
+                              tableSettings.displayRowCheckbox }>
+                              <TableRow selectable={ tableSettings.selectable }>
                                 <TableRowColumn>{section.year + "/" + section.month}</TableRowColumn>
                                 {
                                   section.data.map((item) => (<TableRowColumn>{item[Object.keys(item)[0]]}</TableRowColumn>))
@@ -142,28 +180,16 @@ class Payment extends Component {
         <div>
           <FullWidthSection>
             <center>
-            <TextField ref="monthParam" hintText="日期格式: 2015/01"/>
+              <TextField ref="monthParam" hintText="日期格式: 2015/01"/>
+              <RaisedButton
+                label="Get Month"
+                onClick={this.handleGetMonth}
+                primary
+              />
+            </center>
+              { table }
             <RaisedButton
-              label="Get Month"
-              onClick={this.handleGetMonth}
-              primary
-            />
-        </center>
-            <Table>
-              <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-                <TableRow>
-                  {
-                    tableHeader.map((col) => (<TableHeaderColumn>{col}</TableHeaderColumn>))
-                  }
-                </TableRow>
-              </TableHeader>
-              <TableBody displayRowCheckbox={false}>
-                { tableBody }
-              </TableBody>
-            </Table>
-            <RaisedButton
-
-              style={ styles.submit_btn }
+              style={ styles.submitBtn }
               label="Submit"
               onClick={this.handleSubmit}
               secondary
